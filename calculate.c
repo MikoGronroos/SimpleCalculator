@@ -1,39 +1,41 @@
 #include "tree.h"
 #include <stdio.h>
 
+int calc(node* first, node* second, node* third){
+  int value = 0;
+  if(first->nodeToken == Addition){
+    value = second->nodeValue + third->nodeValue;
+  }
+  if(first->nodeToken == Substraction){
+    value = second->nodeValue - third->nodeValue;
+  }
+  return value;
+}
+
 int calculate(node* firstNode){
-  int numbers[12];
-  numbers[0] = 0;
   node* currentNode = firstNode;
-  token currentToken = Value;
-  while(currentNode != NULL){
-    printf("%d, %f\n", currentNode->nodeToken, currentNode->nodeValue);
-    if(currentNode->nodeToken == 0){
-      numbers[1] = currentNode->nodeValue;
-      if(currentToken == 0){
-        numbers[0] = currentNode->nodeValue;
+  token currentToken = currentNode->nodeToken;
+  while(true){
+    //printf("%d, %f\n", currentNode->nodeToken, currentNode->nodeValue);
+    //printf("%f\n", currentNode->nodeValue);
+    if(currentNode->leftNode == NULL && currentNode->rightNode == NULL){
+      if(currentNode->backNode == NULL){
+        printf("All is null\n");
+        break;
+      }
+      printf("CurrentNode\n");
+      currentNode = currentNode->backNode;
+    }
+    if(currentNode->leftNode != NULL && currentNode->rightNode != NULL){
+      printf("Hei1\n");
+      if(currentNode->leftNode->nodeToken == Value && currentNode->rightNode->nodeToken == Value){
+        printf("Hei2\n");
+        currentNode->nodeValue = calc(currentNode, currentNode->leftNode, currentNode->rightNode);
+        currentNode->nodeToken = Value;
+        currentNode->leftNode = NULL;
+        currentNode->rightNode = NULL;
       }
     }
-
-    if(currentToken == 4){
-      currentToken = Value;
-      numbers[0] = numbers[0] + numbers[1];
-
-    }
-    if(currentToken == 5){
-      currentToken = Value;
-      numbers[0] = numbers[0] - numbers[1];
-    }
-
-
-    if(currentNode->nodeToken == 4){
-      currentToken = Addition;
-    }
-    if(currentNode->nodeToken == 5){
-      currentToken = Substraction;
-    }
-    currentNode = currentNode->backNode;
-
   }
-  return numbers[0];
+  return currentNode->nodeValue;
 }

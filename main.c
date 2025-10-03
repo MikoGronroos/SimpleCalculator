@@ -5,9 +5,9 @@
 int main(){
   char input[256];
   scanf("%255s", input);
-  //ParseString(input);
   node* newNode = getFirstNode(input);
   int number = calculate(newNode);
-  printf("%d\n", number);
+  //printf("%f, %f, %f, %f, %f", newNode->backNode->nodeValue, newNode->backNode->leftNode->nodeValue, newNode->backNode->rightNode->nodeValue, newNode->backNode->rightNode->leftNode->nodeValue, newNode->backNode->rightNode->leftNode->leftNode->nodeValue);
+  printf("\n%d\n", number);
   return 0;  
 }

@@ -11,22 +11,36 @@ node* getFirstNode(char input[]){
   while(*character != '\0'){ 
     node *newNode = allocateNode();
     int numberIndex = 1;
+    printf("xd %c\n", *character);
 
     if(isdigit(*character)){
       float newNumber = atof(character);
       //printf("xd %f, %c\n", newNumber, *character);
       newNode->nodeValue = newNumber;
       numberIndex = sizeOfNumber(character);
+    }else if(*character == '*'){
+      newNode->nodeToken = Multiplication;
+    }else if(*character == '/'){
+      newNode->nodeToken = Division;
+    }else if(*character == '+'){
+      newNode->nodeToken = Addition;
     }else if(*character == '-'){
       newNode->nodeToken = Substraction;
-    }else if(*character == '+'){
-      newNode->nodeToken = Addition; 
     }
 
     i = i + numberIndex;
     character = &input[i];
     if(currentNode != NULL){
-      currentNode->backNode = newNode;
+      if(currentNode->nodeToken == Value && currentNode->backNode == NULL){
+        newNode->leftNode = currentNode;
+        currentNode->backNode = newNode;
+      }else if(currentNode->leftNode == NULL){
+        newNode->backNode = currentNode;
+        currentNode->leftNode = newNode; 
+      }else if(currentNode->rightNode == NULL){
+        newNode->backNode = currentNode;
+        currentNode->rightNode = newNode;
+      }
     }
     currentNode = newNode;
     if(firstNode == NULL){
