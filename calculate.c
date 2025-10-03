@@ -36,6 +36,6 @@ int calculate(node* firstNode){
         currentNode->rightNode = NULL;
       }
     }
-  }
+  }//xd
   return currentNode->nodeValue;
 }
